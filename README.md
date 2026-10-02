@@ -1,0 +1,1 @@
+MindToo releases by PrivateAI.ltd. Installers and checksums only; source is private.
