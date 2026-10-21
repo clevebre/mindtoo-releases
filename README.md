@@ -2,7 +2,7 @@
 
 One private memory for your AI assistants.
 
-MindToo keeps what you and your assistants say to each other, on your own computer, and gives each assistant what it needs before it answers.
+MindToo keeps what you and your assistants say to each other, on your own computer, and gives each assistant what it needs before it answers. It works with Claude Code, Codex, Gemini CLI, Cursor and Windsurf, and the Claude app, on Windows 10 and 11.
 
 ![Claude Code is told something once, and Codex already knows it](assets/demo.gif)
 
@@ -35,6 +35,7 @@ MindToo's own source is not in this repository.
 - [Manual](https://privateai.ltd/mindtoo/manual/)
 - [Help](https://privateai.ltd/mindtoo/help/)
 - [Licence](https://privateai.ltd/mindtoo/licence/)
+- [How it compares](https://privateai.ltd/mindtoo/compare/) with claude-mem, OpenMemory, Memorix, Engrim, Supermemory, Pieces and the memory built into Claude Code, Codex and Cursor, in their own documentation's words
 - Support: support@privateai.ltd
 
 MindToo is made by PrivateAI, Belfast Ltd.
