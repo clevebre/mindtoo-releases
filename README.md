@@ -1,27 +1,42 @@
 # MindToo
 
-One private memory for all your AI assistants, on your own computer.
+One private memory for your AI assistants.
 
-MindToo keeps what you and your assistants say to each other, on your own Windows PC, and gives each assistant
-what it needs before it answers. Tell one of them something, and the others can find it. It works with Claude
-Code, Codex, Gemini CLI, Cursor, Windsurf and the Claude app, and it finds the ones on your computer and
-connects them for you.
+MindToo keeps what you and your assistants say to each other, on your own computer, and gives each assistant what it needs before it answers.
 
-- Your memory is one file in your own Windows user folder. There is no MindToo account and no MindToo cloud.
-- Assistants can remember, correct and archive. Only you can delete.
-- Pause it for every assistant, lock it with a passcode, give each assistant full, read-only or no access.
-- Export everything at any time. Reading, search and export never lock, even after the trial.
+![Claude Code is told something once, and Codex already knows it](assets/demo.gif)
 
-**Try it free for 14 days with everything working.** A founding licence is GBP 29 once, including VAT, with
-every 1.x update and up to three of your own computers.
+*Recorded from real runs on a throwaway demo memory. Nothing from a real memory is shown.*
 
-- Product page, help and licence: https://privateai.ltd/mindtoo/
-- Download: the latest release on this page. Windows 10 or 11, 64-bit, about 150 MB.
-- Each installer is signed by PrivateAI, Belfast Ltd through Microsoft's Artifact Signing, so Windows names
-  the publisher. `SHA256SUMS.txt` beside each installer holds its hash; how to check it is on the help page.
+## What it does
+
+- Each message you send and each reply you get is kept as it happens, in Claude Code, Codex, Gemini CLI, Cursor and Windsurf. In the Claude app, MindToo's skill and plugin keep each turn too.
+- MindToo finds the assistants on your computer and connects them for you.
+- Bring in the conversations Claude Code, Codex and Gemini CLI already hold on your computer, and the data exports of the Claude app and ChatGPT.
+- It is all kept in one file in your own Windows user folder. There is no MindToo account and no MindToo cloud.
+
+## Get it
+
+- [Download for Windows](../../releases/latest): Windows 10 or 11, 64-bit. The installer is signed by PrivateAI, Belfast Ltd, so Windows names the publisher. Each release lists the installer's SHA-256.
+- Free for 14 days, with everything working. After that, keeping new things needs a licence; reading, search and export stay open.
+- £29, including VAT, paid once, at [privateai.ltd/mindtoo](https://privateai.ltd/mindtoo/).
+- Founding 100: £19 instead of £29 for the first 100 licences, until 30 November. Enter FOUNDING100 at checkout.
+
+## In this repository
+
+- [Releases](../../releases): the signed installers, newest first.
+- [claude-plugin/](claude-plugin/): MindToo's plugin for the Claude app. MindToo hands it to the Claude app for you; it is here so you can read what it does.
+- [Issues](../../issues): questions and bugs. Please never paste anything from your own memory into an issue.
+
+MindToo's own source is not in this repository.
+
+## Help
+
+- [Manual](https://privateai.ltd/mindtoo/manual/)
+- [Help](https://privateai.ltd/mindtoo/help/)
+- [Licence](https://privateai.ltd/mindtoo/licence/)
 - Support: support@privateai.ltd
 
-This repository holds the installers and their checksums only; the source is private.
+MindToo is made by PrivateAI, Belfast Ltd.
 
-Claude, ChatGPT, Codex, Gemini, Cursor and Windsurf are trademarks of their owners. MindToo is independent and
-is not affiliated with them. Copyright 2026 PrivateAI, Belfast Ltd.
+Claude, ChatGPT, Codex, Gemini, Cursor and Windsurf are trademarks of their owners. MindToo is independent and is not affiliated with them.
