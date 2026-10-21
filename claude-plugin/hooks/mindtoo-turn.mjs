@@ -18,9 +18,17 @@
 // 0.2.1 (11 Oct 2026, measured live): Claude Code writes an mcp_tool hook's reply to stdout, leaving content empty, and
 // writes nothing at all for a hook that succeeds when the person presses Enter. So the receipt is read from stdout, and
 // a session whose Stop hooks keep turns in MindToo counts this turn saved, unless a hook reported an error at Enter.
-import { readFileSync, existsSync } from 'node:fs';
-import { join } from 'node:path';
+// 0.2.3 (21 Oct 2026): A SESSION THAT SAVES ITSELF BY CONFIGURATION. Another plugin in the same session may carry
+// mcp_tool hooks that call mindtoo_log at Enter and at Stop (the estate's HSMG harness does). Claude Code runs those
+// without Claude's say, so the session saves itself from its first turn, before any receipt is in the transcript; and a
+// transcript file that begins mid-conversation (the session re-linked to the computer) holds no receipt at all. Until
+// 0.2.3 the Enter reminder then asked Claude to save by hand, so a turn was kept twice under two conversation names
+// (HSMG 78872354). Now a configured mindtoo_log hook, in any plugin beside this one, counts the same as a receipt: the
+// reminder says there is nothing to do, and the Stop check asks nothing, unless a hook reported an error at Enter.
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { join, dirname } from 'node:path';
 import { homedir } from 'node:os';
+import { fileURLToPath } from 'node:url';
 
 const mode = process.argv[2];
 const done = () => process.exit(0);
@@ -63,15 +71,30 @@ export function autoRunning(transcriptText) {
   return false;
 }
 
-const TOOL = /mcp__[\w-]*mindtoo__mindtoo_log/;
-const isLogCall = (name) => /(^|__)mindtoo_log$/.test(String(name || ''));
+// 0.2.2 (18 Oct 2026): a session linked to the desktop names its tools with hyphens (mcp__claude-device__lcl-mindtoo-
+// mindtoo_log), so either separator counts, in the list of tools and in the save call (HSMG 9452c376).
+/** 0.2.3: a plugin beside this one whose hooks.json calls mindtoo_log by itself (type mcp_tool), at Enter or at Stop. The
+ * plugins of a session sit side by side under one folder; this plugin's own hooks.json is read too. */
+export function autoConfigured(root = dirname(dirname(dirname(fileURLToPath(import.meta.url))))) {
+  const out = { enter: false, stop: false };
+  let dirs = []; try { dirs = readdirSync(root, { withFileTypes: true }).filter((d) => d.isDirectory()).map((d) => d.name); } catch { return out; }
+  for (const d of dirs) {
+    let h; try { h = JSON.parse(readFileSync(join(root, d, 'hooks', 'hooks.json'), 'utf8')).hooks || {}; } catch { continue; }
+    const logs = (ev) => (Array.isArray(h[ev]) ? h[ev] : []).flatMap((g) => (Array.isArray(g?.hooks) ? g.hooks : [])).some((x) => x?.type === 'mcp_tool' && isLogCall(x.tool));
+    if (logs('UserPromptSubmit')) out.enter = true;
+    if (logs('Stop')) out.stop = true;
+  }
+  return out;
+}
+const TOOL = /mcp__[\w-]*mindtoo[_-]+mindtoo_log/;
+const isLogCall = (name) => /(^|[_-])mindtoo_log$/.test(String(name || ''));
 const isSendCall = (name) => /(^|__)SendUserMessage$/.test(String(name || ''));
 const plain = (s) => String(s == null ? '' : s).replace(/\r\n/g, '\n').trim();
 
 /** Did this turn save itself, did the saved reply reach the person, and does this session have MindToo at all? Read
  * from Claude's own transcript. The reply the person sees is the text after the turn's LAST tool call (or what a
  * SendUserMessage call carried); the reply saved is the `assistant` text of the turn's last mindtoo_log call. */
-export function turnState(transcriptText) {
+export function turnState(transcriptText, cfg = { enter: false, stop: false }) {
   const lines = String(transcriptText || '').split(/\r?\n/).filter(Boolean);
   const available = TOOL.test(transcriptText);
   let lastUser = -1; const entries = [];
@@ -106,7 +129,7 @@ export function turnState(transcriptText) {
   const final = plain(blocks.slice(lastTool + 1).map((b) => b.text).join('\n'));
   const want = plain(logged);
   const delivered = !saved || !want || final.includes(want) || sent.some((m) => plain(m).includes(want));
-  const kept = auto || (running && !failedAtEnter);
+  const kept = auto || ((running || cfg.enter) && !failedAtEnter);
   return { available: available || saved || kept, saved: saved || kept, delivered, hasTurn: lastUser >= 0 };
 }
 
@@ -120,12 +143,12 @@ async function main() {
   let input = {}; try { input = JSON.parse(await readStdin() || '{}'); } catch { return done(); }
   if (mode === 'prompt') {
     let text = ''; try { text = input.transcript_path ? readFileSync(input.transcript_path, 'utf8') : ''; } catch { text = ''; }
-    process.stdout.write(autoRunning(text) ? AUTO : REMIND); return done();
+    process.stdout.write((autoRunning(text) || autoConfigured().enter) ? AUTO : REMIND); return done();
   }
   if (mode === 'stop') {
     if (input.stop_hook_active) return done();
     let text = ''; try { text = input.transcript_path ? readFileSync(input.transcript_path, 'utf8') : ''; } catch { return done(); }
-    const st = turnState(text);
+    const st = turnState(text, autoConfigured());
     if (st.hasTurn && st.available && !st.saved) process.stdout.write(JSON.stringify({ decision: 'block', reason: BLOCK }));
     else if (st.hasTurn && st.available && !st.delivered) process.stdout.write(JSON.stringify({ decision: 'block', reason: DELIVER }));
     return done();
