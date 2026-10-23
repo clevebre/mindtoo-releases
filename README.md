@@ -18,6 +18,7 @@ MindToo keeps what you and your assistants say to each other, on your own comput
 ## Get it
 
 - [Download for Windows](../../releases/latest): Windows 10 or 11, 64-bit. The installer is signed by PrivateAI, Belfast Ltd, so Windows names the publisher. Each release lists the installer's SHA-256.
+- MindToo is also in the [Microsoft Store](https://apps.microsoft.com/detail/xpddzj7p76fdnj), published by PrivateAI Ltd.<br><a href="https://apps.microsoft.com/detail/xpddzj7p76fdnj"><img src="assets/microsoft-store-badge-dark.svg" alt="Download MindToo from the Microsoft Store" width="198" height="54"></a>
 - Free for 14 days, with everything working. After that, keeping new things needs a licence; reading, search and export stay open.
 - £29, including VAT, paid once, at [privateai.ltd/mindtoo](https://privateai.ltd/mindtoo/).
 - Founding 100: £19 instead of £29 for the first 100 licences, until 30 November. Enter FOUNDING100 at checkout.
