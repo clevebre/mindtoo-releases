@@ -1,7 +1,1 @@
-{
-  "name": "mindtoo-capture",
-  "version": "0.2.3",
-  "description": "MindToo remembers everything: every message you send and every reply, kept in your private MindToo memory. For Cowork and Code sessions in the Claude app.",
-  "author": { "name": "PrivateAI.ltd" },
-  "homepage": "https://privateai.ltd"
-}
+{"name":"mindtoo-capture","version":"0.2.3","description":"MindToo remembers everything: every message you send and every reply, kept in your private MindToo memory. For Cowork and Code sessions in the Claude app.","author":{"name":"PrivateAI.ltd"},"homepage":"https://privateai.ltd"}

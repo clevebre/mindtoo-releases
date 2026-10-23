@@ -1,11 +1,1 @@
-{
-  "description": "MindToo: remind Claude to save each turn when the person presses Enter, and do not let a reply finish until the turn is saved.",
-  "hooks": {
-    "UserPromptSubmit": [
-      { "hooks": [ { "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/mindtoo-turn.mjs\" prompt", "timeout": 10 } ] }
-    ],
-    "Stop": [
-      { "hooks": [ { "type": "command", "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/mindtoo-turn.mjs\" stop", "timeout": 10 } ] }
-    ]
-  }
-}
+{"description":"MindToo: remind Claude to save each turn when the person presses Enter, and do not let a reply finish until the turn is saved.","hooks":{"UserPromptSubmit":[{"hooks":[{"type":"command","command":"node \"${CLAUDE_PLUGIN_ROOT}/hooks/mindtoo-turn.mjs\" prompt","timeout":10}]}],"Stop":[{"hooks":[{"type":"command","command":"node \"${CLAUDE_PLUGIN_ROOT}/hooks/mindtoo-turn.mjs\" stop","timeout":10}]}]}}
